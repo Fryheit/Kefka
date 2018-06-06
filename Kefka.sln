@@ -29,16 +29,4 @@ Global
 		RESX_ExcelExportMode = MultipleSheets
 		RESX_MoveToResources = {"Items":[{"Extensions":".cs,.vb","Patterns":"$Namespace.$File.$Key|$File.$Key|StringResourceKey.$Key|$Namespace.StringResourceKey.$Key"},{"Extensions":".cshtml,.vbhtml","Patterns":"@$Namespace.$File.$Key|@$File.$Key|@StringResourceKey.$Key|@$Namespace.StringResourceKey.$Key"},{"Extensions":".cpp,.c,.hxx,.h","Patterns":"$File::$Key"},{"Extensions":".aspx,.ascx","Patterns":"<%$ loc:$File,$Key %>"},{"Extensions":".xaml","Patterns":"{x:Static loc:$File.$Key}"}]}
 	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 3
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://omninewb.visualstudio.com/
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = Kefka\\Kefka.csproj
-		SccProjectName1 = Kefka
-		SccLocalPath1 = Kefka
-		SccProjectUniqueName2 = KefkaLoader\\KefkaLoader.csproj
-		SccProjectName2 = KefkaLoader
-		SccLocalPath2 = KefkaLoader
-	EndGlobalSection
 EndGlobal
