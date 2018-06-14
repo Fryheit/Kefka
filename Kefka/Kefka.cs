@@ -1,12 +1,8 @@
 ﻿using System;
-using System.IO;
-using System.Threading.Tasks;
-using System.Windows;
 using ff14bot;
 using ff14bot.AClasses;
 using ff14bot.Behavior;
 using ff14bot.Managers;
-using Kefka.Models;
 using Kefka.Routine_Files.General;
 using Kefka.Utilities;
 using TreeSharp;
@@ -24,7 +20,7 @@ namespace Kefka
         private DateTime pulseLimiter, saveFormTime;
         private bool _inInstance => DutyManager.InInstance;
         internal static bool windowInitialized = false, IsChineseVersion;
-        private static readonly string VersionPath = Path.Combine(Environment.CurrentDirectory, @"Routines\Kefka\version.txt");
+        //private static readonly string VersionPath = Path.Combine(Environment.CurrentDirectory, @"Routines\Kefka\version.txt");
 
         public Kefka()
         {
@@ -33,7 +29,8 @@ namespace Kefka
 
         public void OnInitialize(int version)
         {
-            Logger.KefkaLog($"Initializing Version: {File.ReadAllText(VersionPath)}");
+            //Logger.KefkaLog($"Initializing Version: {File.ReadAllText(VersionPath)}");
+            Logger.KefkaLog($"Initializing Version: GitHub 1.0.0");
 
             TreeRoot.OnStart += OnBotStart;
             TreeRoot.OnStop += OnBotStop;
@@ -55,28 +52,6 @@ namespace Kefka
 
         public static void OnButtonPress()
         {
-            if (!MainSettingsModel.Instance.ReadReportGuide)
-            {
-                TryAgain:
-                var result = MessageBox.Show("If this is your first time opening Kefka, first of all, thank you very, very much! \n\nBefore reporting errors, please generate an Error Report via the Error Report button located in the upper right-hand corner next to the close button on the primary settings interface. Click 'No' to open the settings and dispose of this message for good! The Error Report button will generate a .zip containing all of Kefka's settings and any log(s) you choose to supply. Just follow the instructions and it will automatically upload your complete report to Trello. \n\nIf you cannot open the settings window to generate a report, please include the latest log.txt from /RB/Logs in a message on Discord. Thank you for reading!", "Kefka Run-Once... Hopefully!", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
-
-                switch (result)
-                {
-                    case MessageBoxResult.Yes:
-                        MessageBox.Show("You didn't read the message...", "Sad Panda...");
-                        goto TryAgain;
-
-                    case MessageBoxResult.No:
-                        MessageBox.Show("Thank you for reading the message... at least halfway through anyway! Remember, Error Report button and Trello!", "You da bes!");
-                        MainSettingsModel.Instance.ReadReportGuide = true;
-                        break;
-
-                    case MessageBoxResult.Cancel:
-                        MessageBox.Show("You didn't read the message...", "Sad Panda...");
-                        goto TryAgain;
-                }
-            }
-
             FormManager.OpenForms();
         }
 

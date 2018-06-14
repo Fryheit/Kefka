@@ -61,8 +61,6 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Button Click="TrelloLink" ToolTip="Click to open Kefka's issue tracker." Content="{iconPacks:PackIconModern SocialTrello}" Foreground="DodgerBlue" />
-                        <Button Click="Trello" ToolTip="Click to Submit an Error Report" Content="{iconPacks:PackIconFontAwesome Bug, Spin=True}" Foreground="Red" />
                         <Button Click="HideWindow" Content="{iconPacks:PackIconMaterial WindowClose}" />
                     </StackPanel>
                 </Grid>

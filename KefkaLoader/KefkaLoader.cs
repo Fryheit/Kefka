@@ -1,20 +1,14 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
-using System.Net.Http;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using System.Windows.Media;
 using Clio.Utilities;
 using ff14bot;
 using ff14bot.AClasses;
 using ff14bot.Enums;
 using ff14bot.Helpers;
-using ICSharpCode.SharpZipLib.Zip;
-using System.Text;
 using ff14bot.Managers;
-using Newtonsoft.Json;
 using TreeSharp;
 using Action = TreeSharp.Action;
 
@@ -24,7 +18,6 @@ namespace CombatRoutineLoader
     {
         private const string ProjectName = "Kefka";
 
-        private const int ProjectId = 18;
         private const string ProjectMainType = "Kefka.Kefka";
         private const string ProjectAssemblyName = "Kefka.dll";
         private static readonly Color LogColor = Color.FromRgb(255, 77, 172);
@@ -36,10 +29,7 @@ namespace CombatRoutineLoader
         private static readonly string GreyMagicAssembly = Path.Combine(Environment.CurrentDirectory, @"GreyMagic.dll");
         private static readonly string KefkaUIAssembly = Path.Combine(Environment.CurrentDirectory, $@"Routines\{ProjectName}\KefkaUI.Metro.dll");
         private static readonly string kefkaUIIconsAssembly = Path.Combine(Environment.CurrentDirectory, $@"Routines\{ProjectName}\KefkaUI.Metro.IconPacks.dll");
-        private static readonly string VersionPath = Path.Combine(Environment.CurrentDirectory, $@"Routines\{ProjectName}\version.txt");
-        private static readonly string BaseDir = Path.Combine(Environment.CurrentDirectory, $@"Routines\{ProjectName}");
-        private static readonly string ProjectTypeFolder = Path.Combine(Environment.CurrentDirectory, @"Routines");
-        private static volatile bool _updaterStarted, _updaterFinished, _loaded;
+        private static volatile bool _loaded;
 
         public override float PullRange => 25;
 
@@ -141,14 +131,6 @@ namespace CombatRoutineLoader
             }
         }
 
-        public CombatRoutineLoader()
-        {
-            if (_updaterStarted) { return; }
-
-            _updaterStarted = true;
-            Task.Factory.StartNew(AutoUpdate);
-        }
-
         private static object Product { get; set; }
 
         private static PropertyInfo CombatProp { get; set; }
@@ -177,19 +159,19 @@ namespace CombatRoutineLoader
 
         public override void OnButtonPress()
         {
-            if (!_loaded && Product == null && _updaterFinished) { LoadProduct(); }
+            if (!_loaded && Product == null) { LoadProduct(); }
             if (Product != null) { ButtonFunc.Invoke(Product, null); }
         }
 
         public override void Pulse()
         {
-            if (!_loaded && Product == null && _updaterFinished) { LoadProduct(); }
+            if (!_loaded && Product == null) { LoadProduct(); }
             if (Product != null) { PulseFunc.Invoke(Product, null); }
         }
 
         public override void ShutDown()
         {
-            if (!_loaded && Product == null && _updaterFinished) { LoadProduct(); }
+            if (!_loaded && Product == null ) { LoadProduct(); }
             if (Product != null) { ShutDownFunc.Invoke(Product, null); }
         }
 
@@ -197,7 +179,7 @@ namespace CombatRoutineLoader
         {
             get
             {
-                if (!_loaded && Product == null && _updaterFinished) { LoadProduct(); }
+                if (!_loaded && Product == null ) { LoadProduct(); }
                 if (Product != null) { return (Composite)CombatProp?.GetValue(Product, null); }
                 return new Action();
             }
@@ -207,7 +189,7 @@ namespace CombatRoutineLoader
         {
             get
             {
-                if (!_loaded && Product == null && _updaterFinished) { LoadProduct(); }
+                if (!_loaded && Product == null ) { LoadProduct(); }
                 if (Product != null) { return (Composite)HealProp?.GetValue(Product, null); }
                 return new Action();
             }
@@ -217,7 +199,7 @@ namespace CombatRoutineLoader
         {
             get
             {
-                if (!_loaded && Product == null && _updaterFinished) { LoadProduct(); }
+                if (!_loaded && Product == null ) { LoadProduct(); }
                 if (Product != null) { return (Composite)PullProp?.GetValue(Product, null); }
                 return new Action();
             }
@@ -227,7 +209,7 @@ namespace CombatRoutineLoader
         {
             get
             {
-                if (!_loaded && Product == null && _updaterFinished) { LoadProduct(); }
+                if (!_loaded && Product == null ) { LoadProduct(); }
                 if (Product != null) { return (Composite)PreCombatProp?.GetValue(Product, null); }
                 return new Action();
             }
@@ -237,7 +219,7 @@ namespace CombatRoutineLoader
         {
             get
             {
-                if (!_loaded && Product == null && _updaterFinished) { LoadProduct(); }
+                if (!_loaded && Product == null ) { LoadProduct(); }
                 if (Product != null) { return (Composite)CombatBuffProp?.GetValue(Product, null); }
                 return new Action();
             }
@@ -247,7 +229,7 @@ namespace CombatRoutineLoader
         {
             get
             {
-                if (!_loaded && Product == null && _updaterFinished) { LoadProduct(); }
+                if (!_loaded && Product == null ) { LoadProduct(); }
                 if (Product != null) { return (Composite)PullBuffProp?.GetValue(Product, null); }
                 return new Action();
             }
@@ -257,7 +239,7 @@ namespace CombatRoutineLoader
         {
             get
             {
-                if (!_loaded && Product == null && _updaterFinished) { LoadProduct(); }
+                if (!_loaded && Product == null ) { LoadProduct(); }
                 if (Product != null) { return (Composite)RestProp?.GetValue(Product, null); }
                 return new Action();
             }
@@ -429,131 +411,6 @@ namespace CombatRoutineLoader
         {
             message = "[Auto-Updater][" + ProjectName + "] " + message;
             Logging.Write(LogColor, message);
-        }
-
-        private static string GetLocalVersion()
-        {
-            if (!File.Exists(VersionPath)) { return null; }
-            try
-            {
-                var version = File.ReadAllText(VersionPath);
-                return version;
-            }
-            catch { return null; }
-        }
-
-        private static void AutoUpdate()
-        {
-            var stopwatch = Stopwatch.StartNew();
-            var local = GetLocalVersion();
-
-            var message = new VersionMessage { LocalVersion = local, ProductId = ProjectId };
-            var responseMessage = GetLatestVersion(message).Result;
-
-            var latest = responseMessage.LatestVersion;
-
-            if (local == latest || latest == null)
-            {
-                _updaterFinished = true;
-                LoadProduct();
-                return;
-            }
-
-            Log($"Updating to version {latest}.");
-            var bytes = responseMessage.Data;
-            if (bytes == null || bytes.Length == 0) { return; }
-
-            if (!Clean(BaseDir))
-            {
-                Log("Could not clean directory for update.");
-                _updaterFinished = true;
-                return;
-            }
-
-            Log("Extracting new files.");
-            if (!Extract(bytes, ProjectTypeFolder))
-            {
-                Log("Could not extract new files.");
-                _updaterFinished = true;
-                return;
-            }
-
-            if (File.Exists(VersionPath)) { File.Delete(VersionPath); }
-            try { File.WriteAllText(VersionPath, latest); }
-            catch (Exception e) { Log(e.ToString()); }
-
-            stopwatch.Stop();
-            Log($"Update complete in {stopwatch.ElapsedMilliseconds} ms.");
-            _updaterFinished = true;
-            LoadProduct();
-        }
-
-        private static bool Clean(string directory)
-        {
-            foreach (var file in new DirectoryInfo(directory).GetFiles())
-            {
-                try { file.Delete(); }
-                catch { return false; }
-            }
-
-            foreach (var dir in new DirectoryInfo(directory).GetDirectories())
-            {
-                try { dir.Delete(true); }
-                catch { return false; }
-            }
-
-            return true;
-        }
-
-        private static bool Extract(byte[] files, string directory)
-        {
-            using (var stream = new MemoryStream(files))
-            {
-                var zip = new FastZip();
-
-                try { zip.ExtractZip(stream, directory, FastZip.Overwrite.Always, null, null, null, false, true); }
-                catch (Exception e)
-                {
-                    Log(e.ToString());
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        private static async Task<VersionMessage> GetLatestVersion(VersionMessage message)
-        {
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri("https://api.omniverse.tech");
-
-                var json = JsonConvert.SerializeObject(message);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                HttpResponseMessage response;
-                try
-                {
-                    response = await client.PostAsync("/api/products/version", content);
-                }
-                catch (Exception e)
-                {
-                    Log(e.Message);
-                    return null;
-                }
-
-                var contents = await response.Content.ReadAsStringAsync();
-                var responseObject = JsonConvert.DeserializeObject<VersionMessage>(contents);
-                return responseObject;
-            }
-        }
-
-        private class VersionMessage
-        {
-            public int ProductId { get; set; }
-            public string LocalVersion { get; set; }
-            public string LatestVersion { get; set; }
-            public byte[] Data { get; set; } = new byte[0];
         }
     }
 }

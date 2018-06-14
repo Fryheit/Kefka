@@ -117,9 +117,6 @@
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="TrelloNet">
-      <HintPath>Libraries\TrelloNet.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore">
       <Private>False</Private>
@@ -932,15 +929,11 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <None Include="FodyWeavers.xml">
-      <SubType>Designer</SubType>
-    </None>
     <Content Include="Libraries\GreyMagic.dll" />
     <Content Include="Libraries\KefkaUI.Metro.dll" />
     <Content Include="Libraries\KefkaUI.Metro.IconPacks.dll" />
     <Content Include="Libraries\RebornBuddy.exe" />
     <Content Include="Libraries\System.Windows.Interactivity.dll" />
-    <Content Include="Libraries\TrelloNet.dll" />
     <Resource Include="Resources\Ability Icons\Color\samurai\higanbana.png" />
     <Resource Include="Resources\Ability Icons\Color\white_mage\aero.png" />
     <Resource Include="Resources\Ability Icons\Color\white_mage\aero_ii.png" />

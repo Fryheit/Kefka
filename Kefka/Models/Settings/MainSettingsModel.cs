@@ -9,7 +9,6 @@ using Kefka.Properties;
 using Kefka.Utilities;
 using Kefka.ViewModels;
 using Newtonsoft.Json;
-using TrelloNet;
 using Color = System.Drawing.Color;
 
 namespace Kefka.Models
@@ -40,10 +39,6 @@ namespace Kefka.Models
             _cdInstanceTier1HpPct, _cdInstanceTier2HpPct, _cdOverworldier1HpPct, _restHpPct, _restMpPct, _restTpPct, _goadTp;
 
         private double _positionOverlayWidth, _positionOverlayHeight, _positionOverlayX, _positionOverlayY, _toggleOverlayWidth, _toggleOverlayHeight, _toggleOverlayX, _toggleOverlayY, _mainWindowX, _mainWindowY, _enemyInfoX, _enemyInfoY, _toggleOverlayOpacity, _infoOverlayOpacity, _enemyInfoOverlayOpacity, _dotInstanceTier1HpAdvantage, _dotInstanceTier2HpAdvantage, _dotOverworldTier1HpAdvantage, _cdInstanceTier1HpAdvantage, _cdInstanceTier2HpAdvantage, _cdOverworldTier1HpAdvantage;
-
-        private string _trelloToken;
-
-        private Token _trelloTokenData;
 
         private static Color _toastMessageColor, _logMessageColor;
 
@@ -320,16 +315,6 @@ namespace Kefka.Models
         [DefaultValue(false)]
         public bool ReadReportGuide
         { get { return _readReportGuide; } set { _readReportGuide = value; OnPropertyChanged(); } }
-
-        [Setting]
-        [DefaultValue("")]
-        public string TrelloToken
-        { get { return _trelloToken; } set { _trelloToken = value; OnPropertyChanged(); } }
-
-        [Setting]
-        [DefaultValue(null)]
-        public Token TrelloTokenData
-        { get { return _trelloTokenData; } set { _trelloTokenData = value; OnPropertyChanged(); } }
 
         [Setting]
         [DefaultValue(50)]
