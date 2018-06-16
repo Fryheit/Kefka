@@ -143,7 +143,9 @@
       <DependentUpon>IntNumeric.xaml</DependentUpon>
     </Compile>
     <Compile Include="Kefka.cs" />
-    <Compile Include="Models\CientSession.cs" />
+    <None Include="KefkaLoader.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Compile Include="Models\HealBuster.cs" />
     <Compile Include="Models\Presets\CyanPresetsSettingsModel.cs" />
     <Compile Include="Models\Presets\ElaynePresetsSettingsModel.cs" />
@@ -209,7 +211,6 @@
     <Compile Include="Utilities\IgnoreTargetManager.cs" />
     <Compile Include="Utilities\LocalizedDescriptionAttribute.cs" />
     <Compile Include="Utilities\LocationManager.cs" />
-    <Compile Include="Utilities\Memory.cs" />
     <Compile Include="Utilities\MouseKeyboardStateTest.cs" />
     <Compile Include="Utilities\RSS\Feed.cs" />
     <Compile Include="Utilities\RSS\Feeds.cs" />

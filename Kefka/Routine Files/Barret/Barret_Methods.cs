@@ -7,14 +7,12 @@ using System.Windows.Media;
 using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Managers;
-using static Kefka.Utilities.Constants;
 using Kefka.Models;
 using Kefka.Routine_Files.General;
 using Kefka.Utilities;
-using Kefka.Utilities.Extensions;
 using Kefka.ViewModels;
+using static Kefka.Utilities.Constants;
 using static Kefka.Utilities.Extensions.GameObjectExtensions;
-using Auras = Kefka.Routine_Files.General.Auras;
 
 namespace Kefka.Routine_Files.Barret
 {
@@ -202,7 +200,7 @@ namespace Kefka.Routine_Files.Barret
                 return await Spells.Cooldown.Use(Target, true);
             }
 
-            if (!Overheated && ActionResourceManager.Machinist.Heat >= BarretSettingsModel.Instance.CooldownThreshold && 
+            if (!Overheated && ActionResourceManager.Machinist.Heat >= BarretSettingsModel.Instance.CooldownThreshold &&
                 (!ActionManager.CanCast(Spells.BarrelStabilizer, Core.Player) || !UseWildfire || Spells.Wildfire.Cooldown.TotalMilliseconds > 3000))
             {
                 return await Spells.Cooldown.Use(Target, true);

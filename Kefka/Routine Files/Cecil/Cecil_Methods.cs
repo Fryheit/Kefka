@@ -8,14 +8,13 @@ using Buddy.Coroutines;
 using ff14bot;
 using ff14bot.Managers;
 using ff14bot.Objects;
-using static Kefka.Utilities.Constants;
-using static Kefka.Utilities.Extensions.GameObjectExtensions;
 using Kefka.Models;
 using Kefka.Routine_Files.General;
 using Kefka.Utilities;
-using Kefka.Utilities.Extensions;
 using Kefka.ViewModels;
 using Kefka.ViewModels.Openers;
+using static Kefka.Utilities.Constants;
+using static Kefka.Utilities.Extensions.GameObjectExtensions;
 using Auras = Kefka.Routine_Files.General.Auras;
 
 namespace Kefka.Routine_Files.Cecil

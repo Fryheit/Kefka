@@ -1,16 +1,16 @@
 ﻿using System;
-using ff14bot.Enums;
-using ff14bot.Managers;
-using ff14bot.Objects;
-using static Kefka.Utilities.Constants;
-using Kefka.Models;
-using Kefka.Routine_Files.General;
-using Kefka.Utilities;
-using Kefka.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Buddy.Coroutines;
+using ff14bot.Enums;
+using ff14bot.Managers;
+using ff14bot.Objects;
+using Kefka.Models;
+using Kefka.Routine_Files.General;
+using Kefka.Utilities;
+using Kefka.ViewModels;
+using static Kefka.Utilities.Constants;
 using static Kefka.Utilities.Extensions.GameObjectExtensions;
 using Auras = Kefka.Routine_Files.General.Auras;
 
@@ -129,7 +129,7 @@ namespace Kefka.Routine_Files.Edward
 
         private static async Task<bool> RagingStrikes()
         {
-            return await Spells.RagingStrikes.CastBuff(Me, EdwardSettingsModel.Instance.UseBuffs && 
+            return await Spells.RagingStrikes.CastBuff(Me, EdwardSettingsModel.Instance.UseBuffs &&
                 (ActionResourceManager.Bard.ActiveSong == ActionResourceManager.Bard.BardSong.WanderersMinuet
                     || (ActionResourceManager.Bard.ActiveSong == ActionResourceManager.Bard.BardSong.MagesBallad
                     && EdwardSettingsModel.Instance.UseAoE
