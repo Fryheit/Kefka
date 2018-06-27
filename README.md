@@ -1,7 +1,5 @@
 # Kefka
-Kefka is an all-in-one combat routine for RebornBuddy by [Omninewb][Omninewb].
-
-It is part of the open-sourced [Omniverse products][Omniverse Github].
+Kefka is an all-in-one combat routine for RebornBuddy by [Omninewb][Omninewb] and is part of the open-sourced [Omniverse products][Omniverse Github].
 
 ## Installation
 
